@@ -1,61 +1,133 @@
 import java.util.Scanner;
 
 public class App {
-    
-    public static void main(String[] args)
-    {
-        //Creación de la clase Scan para tomar los valores del usuario
+    public static void main(String[] args) throws Exception {
+        
         Scanner usuario = new Scanner (System.in);
-    
-        //PUNTO A: constructor del objeto Flor con los atributos del texto
-        Flor nuevaFlor = new Flor ("vanidosa","muy hermosa");
+        Boolean salir = false;//variable que define si finaliza el programa
 
-        //Constructor del objeto Principito con los atributos del texto
-        Principito nuevoPrincipito = new Principito ("dedicado","explorador");
-
-        //Constructor de la flor del principito
-        nuevoPrincipito.setFlorPrincipito(nuevaFlor);
+        System.out.println("\n                         --Trabajo Práctico N 4--");
+        System.out.println("                      Programa que muestra por pantalla");
+        System.out.println("          Los valores de las piezas del ajedrez, segun el relato de Borges");
         
-        //PUNTO C:Llamada al metodo que imprime el texto literario con los valores del autor
-        System.out.println("   --->Texto literario con valores del autor");
-        imprimirTexto(nuevaFlor.getActitud(), nuevaFlor.getApariencia());
-        
-        //Solicitud de los valores de la flor al usuario
-        System.out.println("Por favor ingrese la actitud de la flor: " );
-        String actitudFlorUsuario = usuario.next();
-        System.out.println("Por favor ingrese la apariencia de la flor: " );
-        String aparienciaFlorUsuario = usuario.next();
+        do{
+            System.out.println("\n     OPCIONES:");
+            System.out.println("       -----------------------------------------------------------");
+            System.out.println(" 1 --> Mostrar Piezas de color BLANCO con su caracter y movimiento");
+            System.out.println(" 2 --> Mostrar Piezas de color NEGRO con su caracter y movimiento");
+            System.out.println(" 3 --> Mostrar Tablero de Ajedres");
+            System.out.println(" 0 --> SALIR");
+            System.out.print("\n Por favor ingrese la opción deseada: " );
+            String opcion = usuario.next();
+   
+            switch (opcion) {
+                case "1"://impresion de piezas blancas
+                    Pieza cadenaPiezasB[] = cargarAtributos("Blanco");
+                    imprimirPiezas(cadenaPiezasB);
+                    System.out.println("");
+                    break;
+                case "2"://impresion de piezas negras
+                    Pieza cadenaPiezasN[] = cargarAtributos("Negro");
+                    imprimirPiezas(cadenaPiezasN);
+                    System.out.println("");
+                    break;
+                case "3"://impresion de tablero
+                    System.out.println("");
+                    Tablero tableroCompleto[][] = llenarTablero();
+                    imprimirTablero(tableroCompleto);
+                    break;
+                case "0"://salida del programa
+                    System.out.println("");
+                    System.out.println("  --Hasta Luego--");
+                    System.out.println("");
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("\n  --> OPCION INCORRECTA <--\n");
 
-        //PUNTO B: Asignación de los valores del usuario para los atributos de la flor
-        nuevaFlor.setActitud(actitudFlorUsuario);
-        nuevaFlor.setApariencia(aparienciaFlorUsuario);
+            }
+        } while (salir == false);
 
-        //PUNTO D: Imprimir el texto literario con los valores aportados por el usuario
-        System.out.println("  --->Texto literario con valores del usuario");
-        imprimirTexto(nuevaFlor.getActitud(), nuevaFlor.getApariencia());
-
-        //Ejercicio 3: Imprimir los atributos de la flor construyendo la misma desde la clase Principito
-
-        //Le vuelvo a asignar los valores de los atributos a la flor, segun el texto originario
-        nuevaFlor.setActitud("vanidosa");
-        nuevaFlor.setApariencia("muy hermosa");
-
-        //Impresión por pantalla del texto literario tomando los valores de la flor de principito
-        System.out.println("   --->Texto literario con valores de la Flor del Principito");
-        imprimirTexto(nuevoPrincipito.getFlorPrincipito().getActitud(), nuevoPrincipito.getFlorPrincipito().getApariencia());
-    }
-    //Metodo de impresion del texto literario, donde se pasan los valores de cada punto
-    private static void imprimirTexto(String actitudFlor, String aparienciaFlor)
-    {
-        System.out.println("");
-        System.out.println("El principito tenía una flor que amaba mucho. Cuidaba de ella todos los");
-        System.out.println("días, la regaba y le quitaba las orugas. La flor, aunque un poco " + actitudFlor);
-        System.out.println("era " + aparienciaFlor + " y agradecia al Principito por su dedicacion. Un dia, el");
-        System.out.println("principito decidio explorar otros planetas y, aunque no queria dejar sola");
-        System.out.println("a su flor, sabia que debia continuar su viaje para aprender mas sobre el universo");
-        System.out.println("");
     }
 
+    //Metodo que carga los atributos de las piezas del ajedres según el color elegido por el usuario
+    private static Pieza[] cargarAtributos(String colorPieza){
 
-} 
+        Pieza cadena[] = new Pieza[16];
 
+        cadena[0] = new Rey("Rey", colorPieza, "Postrero");
+        cadena[1] = new Reina("Reina", colorPieza, "Armada");
+        cadena[2] = new Alfil("Alfil", colorPieza, "Oblicuo");
+        cadena[3] = new Alfil("Alfil", colorPieza, "Oblicuo");
+        cadena[4] = new Caballo("Caballo", colorPieza, "Ligero");
+        cadena[5] = new Caballo("Caballo", colorPieza, "Ligero");
+        cadena[6] = new Torre("Torre", colorPieza, "Directo");
+        cadena[7] = new Torre("Torre", colorPieza, "Directo");
+        
+        
+        for (int i = 8; i < 16; i++) {
+            cadena[i] = new Peon("Peon", colorPieza, "Ladino");
+        }
+
+        return cadena;
+    }
+    //Metodo de impresión de cada pieza con sus atributos
+    public static void imprimirPiezas(Pieza cadena[]){
+        
+        System.out.println("");
+        for (int i = 0; i < 16; i++) {
+            
+            System.out.println("\n-> Nombre Pieza: " + cadena[i].getNombrePieza() + "\n   Color: " + cadena[i].getColor()  + " Velocidad: " + 
+                                cadena[i].getVelocidad() + "\n   Movimiento: " + cadena[i].getMovimiento() + " Caracter: " + cadena[i].getCaracter());
+            System.out.println("\n" + cadena[i].getMover());
+        }
+        System.out.println("");
+    }
+    //metodo de carga del tablero
+    private static Tablero[][] llenarTablero() {
+        
+        Tablero matriz[][] = new Tablero [8][8];
+
+        for (int i = 0; i < 8;i++){
+            for (int j = 0; j < 8;j++) {
+                
+                if (i%2 == 0){
+                    if (j%2 == 0){
+                        matriz[i][j] = new Tablero(Tablero.getCasilleroblanco());
+
+                    }
+                    else{
+                        matriz[i][j] = new Tablero(Tablero.getCasilleronegro());
+                    }
+                }
+                else{
+                    if (j%2 == 0){
+                        matriz[i][j] = new Tablero(Tablero.getCasilleronegro());
+                    }
+                    else{
+                        matriz[i][j] = new Tablero(Tablero.getCasilleroblanco());
+                    }
+                }
+            }
+        }
+
+        return matriz;
+    }
+
+    //metodo de impresion del tablero como Clase
+    public static void imprimirTablero(Tablero[][] tablero){
+        
+        System.out.println("     Tablero de Juego\n");
+
+        for (int i = 0; i < 8;i++){
+            System.out.println("  -   -   -   -   -   -   -   -");
+            for (int j = 0; j < 8;j++) {
+                System.out.print("| " + tablero[i][j].getColorCasillero());
+            }
+                System.out.print("|\n");
+        }
+        System.out.println("  -   -   -   -   -   -   -   -");
+
+    }
+
+}
