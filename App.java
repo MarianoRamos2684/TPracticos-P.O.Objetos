@@ -4,7 +4,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         
         Scanner usuario = new Scanner (System.in);
-        Boolean salir = false;//variable que define si finaliza el programa
+        Boolean salir = false;
 
         System.out.println("\n                         --Trabajo Práctico N 4--");
         System.out.println("                      Programa que muestra por pantalla");
@@ -33,7 +33,7 @@ public class App {
                     break;
                 case "3"://impresion de tablero
                     System.out.println("");
-                    Tablero tableroCompleto[][] = llenarTablero();
+                    Tablero tableroCompleto = new Tablero();
                     imprimirTablero(tableroCompleto);
                     break;
                 case "0"://salida del programa
@@ -83,46 +83,15 @@ public class App {
         }
         System.out.println("");
     }
-    //metodo de carga del tablero
-    private static Tablero[][] llenarTablero() {
-        
-        Tablero matriz[][] = new Tablero [8][8];
-
-        for (int i = 0; i < 8;i++){
-            for (int j = 0; j < 8;j++) {
-                
-                if (i%2 == 0){
-                    if (j%2 == 0){
-                        matriz[i][j] = new Tablero(Tablero.getCasilleroblanco());
-
-                    }
-                    else{
-                        matriz[i][j] = new Tablero(Tablero.getCasilleronegro());
-                    }
-                }
-                else{
-                    if (j%2 == 0){
-                        matriz[i][j] = new Tablero(Tablero.getCasilleronegro());
-                    }
-                    else{
-                        matriz[i][j] = new Tablero(Tablero.getCasilleroblanco());
-                    }
-                }
-            }
-        }
-
-        return matriz;
-    }
-
-    //metodo de impresion del tablero como Clase
-    public static void imprimirTablero(Tablero[][] tablero){
+    //metodo de impresion del tablero
+    public static void imprimirTablero(Tablero tableroCompleto){
         
         System.out.println("     Tablero de Juego\n");
 
         for (int i = 0; i < 8;i++){
             System.out.println("  -   -   -   -   -   -   -   -");
             for (int j = 0; j < 8;j++) {
-                System.out.print("| " + tablero[i][j].getColorCasillero());
+                System.out.print("| " + tableroCompleto.getColor(i,j));
             }
                 System.out.print("|\n");
         }

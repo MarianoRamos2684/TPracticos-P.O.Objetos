@@ -1,30 +1,41 @@
 public class Tablero {
 
-    public static final String casilleroBlanco = "B ";
-    public static final String casilleroNegro = "N ";
-    private String colorCasillero;
-
-    //Constructor acio y con parametro
+    private Casillero[][] casilleros;
+    
+    //Constructor que crea el Tablero con los 64 casilleros y sus colores
     public Tablero(){
 
-    }
-    public Tablero(String color){
-        this.colorCasillero = color;
+        casilleros = new Casillero[8][8];
+
+        for (int i = 0; i < 8;i++){
+            for (int j = 0; j < 8;j++) {
+                
+                if (i%2 == 0){
+                    if (j%2 == 0){
+                        casilleros[i][j] = new Casillero(Casillero.getCasilleroblanco());
+
+                    }
+                    else{
+                        casilleros[i][j] = new Casillero(Casillero.getCasilleronegro());
+                    }
+                }
+                else{
+                    if (j%2 == 0){
+                        casilleros[i][j] = new Casillero(Casillero.getCasilleronegro());
+                    }
+                    else{
+                        casilleros[i][j] = new Casillero(Casillero.getCasilleroblanco());
+                    }
+                }
+            }
+        }
+
     }
 
-    //Getters y setters de los atributos
-    public static String getCasilleronegro() {
-        return casilleroNegro;
+    public String getColor(int fila, int columna) {
+        
+        String colorCasilla = casilleros[fila][columna].getColorCasillero();
+        return colorCasilla;
     }
-    public static String getCasilleroblanco() {
-        return casilleroBlanco;
-    }
-    public String getColorCasillero() {
-        return colorCasillero;
-    }
-    public void setColorCasillero(String colorCasillero) {
-        this.colorCasillero = colorCasillero;
-    }
-
 
 }
